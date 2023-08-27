@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer base {
+
+  *::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+  }
+  * {
+    scrollbar-color: rgba(52, 52, 52, 0.2) #d6d6d6;
+    scrollbar-width: thin;
+  }
+  *::-webkit-scrollbar-track {
+    @apply bg-gray-200 rounded-full bg-transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 rounded-full;
+  }
+  .noscroll {
+    scrollbar-width: none;
+  }
+  .noscroll::-webkit-scrollbar {
+    @apply w-0 h-0;
+  }
+  body{
+    @apply font-Quicksand font-normal
+  }
+  * {
+    @apply focus:outline-[0];
+  }
+  .otp-input input {
+    @apply sm:!w-14 sm:!h-14 !w-9 h-9 border border-black/5 rounded sm:mx-2 mx-1 sm:leading-[33px]
+   }
+   table:not(.small) tbody {
+    @apply before:leading-4 before:content-[''] before:block before:h-4
+  }
+   table:not(.small) th{
+    @apply bg-primaryRed/10 cursor-pointer py-15px px-3 first:pl-5 first:rounded-l-lg last:rounded-r-lg text-dark text-base/5 text-left
+   }
+   table:not(.small) td{
+    @apply bg-primaryRed/[0.03] font-bold py-4 px-3 first:pl-5 text-black/50 text-sm/4 border-b border-solid border-black/10
+   }
+   table:not(.small) tr:first-child td{
+    @apply first:rounded-tl-lg last:rounded-tr-lg
+   }
+   table:not(.small) tr:last-child td{
+    @apply  border-b-0 first:rounded-bl-lg last:rounded-br-lg
+   }
+   select{
+    @apply bg-DownArrow bg-no-repeat appearance-none bg-[85%_center] cursor-pointer font-semibold
+   }
+
+   table.timesheet-table th{
+      @apply px-1 py-3
+   }
+   table.timesheet-table td{
+    @apply px-1 py-3
+   }
+
+   table.small tr:not(:last-child) td{
+    @apply border-b border-solid border-black/10
+   }
+
+   .ReactDatePickerMianWrapper .react-datepicker-wrapper{
+    @apply w-full
+   }
+
+
+   .ql-container {
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    background: #fefcfc;
+  }
+  
+  .ql-snow.ql-toolbar {
+    display: block;
+    background: #eaecec;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+  }
+  
+  .custom-editor .ql-editor {
+    min-height: 10em;
+    
+  }
+  primaryRed
+  .quill .ql-snow.ql-toolbar {
+    background: #f8f8f8;
+    border-bottom: 0px;
+    @apply border-primaryBlack1/[0.08] bg-primaryGray;
+  }
+  .quill .ql-container.ql-snow {
+    @apply border-primaryBlack1/[0.08] bg-primaryGray;
+  }
+  .quill .ql-snow .ql-picker {
+    @apply text-black/30;
+  }
+  
+  .quill .ql-snow .ql-stroke {
+    stroke: #aeaeae;
+  }
+  .quill .ql-snow .ql-fill,
+  .quill .ql-snow .ql-stroke.ql-fill {
+    fill: #aeaeae;
+  }
+  
+  .admin-wrapper header .custom-select-wrap svg {
+    fill: #666666;
+  }
+  
+  body[dir="rtl"] .ql-editor {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  div[dir="rtl"] .ql-editor {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  .select-svg-hide svg {
+    opacity: 0;
+  }
+
+  .table-file tr td{
+    @apply border-0 !border-transparent !border-none
+  }
+  .table-file tr td[colspan]{
+    @apply !border-b !border-solid !border-black/10
+  }
+}
+
+@media screen and (max-height:550px) {
+  .items-center{
+    align-items: unset;
+  }
+}

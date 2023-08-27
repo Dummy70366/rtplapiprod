@@ -1,0 +1,101 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/*.{tsx,jsx,ts,js}",
+    "./src/**/*.{tsx,jsx,ts,js}",
+    "./src/**/**/*.{tsx,jsx,ts,js}",
+    "./src/**/**/**/*.{tsx,jsx,ts,js}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        Quicksand: "Quicksand, sans-serif",
+      },
+      colors: {
+        primaryRed: "#ED691F",
+        Seconday: "#9E9DA8",
+        offWhite: "#F5F5F5",
+        customGray: "#565656",
+        grayDark: "#757B82",
+        lightGray: "#EFEFEF",
+        dark: "#3E3E3E",
+        red: "#ff0000",
+        tomatoRed: "#F04B69",
+      },
+      spacing: {
+        dvh: "100dvh",
+        dvw: "100dvw",
+        "100px": "6.25rem",
+        "6px": "0.375rem",
+        "10px": "0.625rem",
+        "11px": "0.6875rem",
+        "15px": "0.9375rem",
+        "18px": "1.125rem",
+        "30px": "1.875rem",
+        "35px": "2.1875rem",
+        "50px": "3.125rem",
+      },
+      fontSize: {
+        "10px": "0.625rem",
+        "13px": "0.8125rem",
+        "15px": "0.9375rem",
+        "26px": "1.625rem",
+        "30px": "1.875rem",
+        "32px": "2rem",
+      },
+      lineHeight: {
+        "16px": "1.0156rem",
+        "18px": "1.125rem",
+        "22px": "1.375rem",
+        "26px": "1.625rem",
+        "30px": "1.875rem",
+        "35px": "2.1875rem",
+        "37px": "2.3125rem",
+        "40px": "2.5rem",
+        "45px": "2.8125rem",
+      },
+      minHeight: {
+        dvh: "100dvh",
+      },
+      minWidth: {
+        dvw: "100dvw",
+      },
+      maxHeight: {
+        dvh: "100dvh",
+      },
+      maxWidth: {
+        dvw: "100dvw",
+      },
+      borderRadius: {
+        10: "0.625rem",
+        15: "0.9375rem",
+        20: "1.25rem",
+      },
+      zIndex: {
+        1: 9,
+        2: 99,
+        3: 999,
+        4: 9999,
+        5: 99999,
+        6: 999999,
+      },
+      screens: {
+        1700: "1700px",
+        1600: "1600px",
+        1400: "1400px",
+        1300: "1300px",
+        1200: "1200px",
+        992: "992px",
+        768: "768px",
+        540: "540px",
+        375: "375px",
+        320: "320px",
+      },
+      backgroundImage: {
+        DownArrow: "url(./public/assets/images/down-arrow.svg)",
+        CheckWhite: "url(./public/assets/images/check-white.svg)",
+      },
+    },
+  },
+  plugins: [],
+};
