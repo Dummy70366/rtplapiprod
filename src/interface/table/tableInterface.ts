@@ -1,0 +1,42 @@
+import { Dispatch, SetStateAction } from "react";
+import { Option } from "../customSelect/customSelect";
+import { transportSummaryEnum } from "@/enum/transport";
+
+export interface ITableProps {
+  bodyData?: object[];
+  headerData?: object[];
+  loader?: boolean;
+  isButton?: boolean;
+  buttonLink?: string;
+  buttonClick?: () => void;
+  buttonText?: string;
+  isExport?: boolean;
+  isDateRange?: boolean;
+  isSearch?: boolean;
+  isTab?: boolean;
+  setTab?: (value: number) => void;
+  isDropdown?: boolean;
+  dropDownList?: Option[];
+  dropDownValue?: string | number;
+  setDropdownValue?: (value: number | string | (number | string)[]) => void;
+  dataPerPage?: number;
+  totalPage?: number;
+  currentPage?: number;
+  pagination?: boolean;
+  isClientDropdown?: boolean;
+  isSegmentDropdown?: boolean;
+  isEmployeeDropdown?: boolean;
+  isEmployeeMedicalStatus?: boolean;
+  setSorting?: (string: string) => void;
+  sortType?: boolean;
+  setSortingType?: (string: boolean) => void;
+  setLimit?: (number: number) => void;
+  addSubSegment?: boolean;
+  dateFilter?: { startDate: Date; endDate: Date };
+  setDateFilter?: Dispatch<SetStateAction<{ startDate: Date; endDate: Date }>>;
+  tableLastTheadClass?: string;
+  summaryTableType?: transportSummaryEnum;
+  isUploadFileHeader?: boolean;
+  setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setDocumentId?: React.Dispatch<React.SetStateAction<string>>;
+}
