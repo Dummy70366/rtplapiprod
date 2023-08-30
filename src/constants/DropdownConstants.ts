@@ -144,7 +144,7 @@ export const MenuList = [
       {
         name: "List",
         id: "company-list",
-        link: "admin/company",
+        link: "/admin/company",
       },
     ],
   },
