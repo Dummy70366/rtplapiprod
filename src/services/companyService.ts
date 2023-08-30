@@ -2,7 +2,7 @@ import { axiosGet,axiosPost,axiosPut,axiosDelete } from "../axios/axios";
 
 const prefix = "/company";
 
-export const GetCompanyListData = (query: string) => {
+export const GetCompanyListData = (query: string = "") => {
   return axiosGet(`${prefix}/getCompanyList${query}`);
 };
 

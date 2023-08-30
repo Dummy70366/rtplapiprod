@@ -58,17 +58,20 @@ const Register = () => {
   async function getCompanyList() {
     const response = await GetCompanyListData();
     if (response?.data.response_type === "SUCCESS") {
-      const temp = response?.data.data.map((value: any) => ({
+      console.log(response?.data.data.data);
+      const temp = response?.data.data.data.map((value: any) => ({
         label: value.Name,
         value: value.companyID,
       }));
+      console.log(temp);
       setCompanyOptions(temp);
     }
   }
   async function getRolesList() {
     const response = await GetRolesListData();
+
     if (response?.data.response_type === "SUCCESS") {
-      const temp = response?.data.data.map((value: any) => ({
+      const temp = response?.data.data.data.map((value: any) => ({
         label: value.role,
         value: value.roleID,
       }));
