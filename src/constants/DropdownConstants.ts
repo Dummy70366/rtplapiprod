@@ -124,14 +124,27 @@ export const MenuList = [
   },
   {
     name: "Admin",
-    link: "#!",
+    link: "#",
     icon: SidebarAdmin,
     subMenu: true,
     subMenuList: [
       {
         name: "Roles",
         id: "roles",
-        link: "/admin/roles",
+        link: "/roles",
+      },
+    ],
+  },
+  {
+    name: "Company",
+    link: "#",
+    icon: SidebarContracts,
+    subMenu: true,
+    subMenuList: [
+      {
+        name: "List",
+        id: "company-list",
+        link: "admin/company",
       },
     ],
   },

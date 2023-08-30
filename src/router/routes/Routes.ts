@@ -42,6 +42,16 @@ export const RoutesPath = [
     name: "Home",
     element: Home,
   },
+  {
+    path: "admin/company",
+    name: "Company Listing",
+    element: CompanyList,
+  },
+  {
+    path: "/Office-List",
+    name: "office Listing",
+    element: OfficesList,
+  },
 ];
 
 export const AdminPath = [
@@ -49,17 +59,7 @@ export const AdminPath = [
     path: "/admin/dashboard",
     name: "Admin Dashboard",
     element: Home,
-  },
-  {
-    path: "/admin/company",
-    name: "Company Listing",
-    element: CompanyList,
-  },
-  {
-    path: "/admin/Office-List",
-    name: "office Listing",
-    element: OfficesList,
-  },
+  }
 ];
 
 export const routeMatch = {
