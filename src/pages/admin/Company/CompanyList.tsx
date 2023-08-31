@@ -1,15 +1,16 @@
 import Modal from "@/components/modal/Modal";
-import { DeleteIcon, EditIocn } from "@/components/svgIcons";
+import { DeleteIcon, EditIocn,SidebarHome } from "@/components/svgIcons";
 import Table from "@/components/table/Table";
 import {
   currentPageCount,
   currentPageSelector,
 } from "@/redux/slices/paginationSlice";
-import { GetCompanyListData,DeletCompany } from "@/services/companyService";
+import { GetCompanyListData,DeletCompany,EditCompanyData } from "@/services/companyService";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddUpdateCompany from "./AddUpdateCompany";
 import { setCompanyData } from "@/redux/slices/companySlice";
+import { useNavigate } from "react-router-dom";
 
 const CompanyList = () => {
   const [limit, setLimit] = useState<number>(10);
@@ -20,6 +21,8 @@ const CompanyList = () => {
   const [loader, setLoader] = useState<boolean>(true);
   const [sort, setSorting] = useState<string>("");
   const [sortType, setSortingType] = useState<boolean>(true);
+  const navigate = useNavigate();
+
   const [clientDataPage, setClientDataPage] = useState<{
     data: any;
     totalPage: number;
@@ -49,7 +52,6 @@ const CompanyList = () => {
     const response = await GetCompanyListData(query);
     if (response?.data?.data) {
       const result = response?.data?.data;
-      console.log(result);
       setClientDataPage({
         data: result.data,
         totalCount: result.count,
@@ -58,6 +60,32 @@ const CompanyList = () => {
       dispatch(setCompanyData(result.data));
     }
     setLoader(false);
+  }
+
+
+  const toggleButtonChange  = ( event :any, companyID:number)=>{
+    if(event.target.checked)
+    {
+      statusChange(companyID,true);
+    }
+    else
+    {
+      statusChange(companyID,false);
+    }
+  }
+
+
+  const statusChange = async (companyID:any,status:any) =>{
+    try {
+      let data ={
+        isActive:status
+      }
+      await EditCompanyData(data,companyID);
+
+    } catch (error) {
+      console.log("error", error);
+    }
+    
   }
 
   const handleOpenModal = (id: string) => {
@@ -71,6 +99,7 @@ const CompanyList = () => {
       if (response?.data?.response_type === "SUCCESS") {
         await fetchAllClient(queryString);
       }
+      
       setOpen(false);
     } catch (error) {
       console.log("error", error);
@@ -114,21 +143,39 @@ const CompanyList = () => {
       name: "isActive",
       className: "",
       commonClass: "",
+      cell: (props: { companyID: string; isActive: boolean;}) => {
+        return (
+          <div className="flex items-center gap-1.5">
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" defaultChecked={props.isActive} readOnly onChange={(e)=>{toggleButtonChange(e,props.companyID)}} className="sr-only peer"/>
+              <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+            </label>
+          </div>
+        );
+      },
+
     },
     {
       header: "Action",
-      cell: (props: { companyID: string; status: string }) => {
+      cell: (props: { companyID: string;}) => {
         return (
           <div className="flex items-center gap-1.5">
             <span
               className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-black/10 text-dark p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
               onClick={() => {
-                console.log(props.companyID);
                 setClientId(props.companyID);
                 setOpenModal(true);
               }}
             >
               <EditIocn className="w-ful h-full pointer-events-none" />
+            </span>
+            <span
+              className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-black/10 text-dark p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
+              onClick={() => {
+                navigate('/admin/company/office/'+props.companyID);
+              }}
+            >
+              <SidebarHome className="w-ful h-full pointer-events-none" />
             </span>
             <span
               className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-red/10 text-red p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
@@ -149,7 +196,7 @@ const CompanyList = () => {
       headerData={columnData}
       bodyData={clientDataPage.data}
       isButton={true}
-      buttonText="Add"
+      buttonText="Add Company"
       buttonClick={() => {
         setClientId("");
         setOpenModal(true);

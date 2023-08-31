@@ -83,7 +83,7 @@ const Register = () => {
     if (id) {
       const response = await GetAllOfficesById(Number(id));
       if (response?.data.response_type === "SUCCESS") {
-        const temp = response?.data.data.map((value: any) => ({
+        const temp = response?.data.data.data.map((value: any) => ({
           label: value.Address,
           value: value.officeID,
         }));

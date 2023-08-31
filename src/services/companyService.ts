@@ -16,7 +16,6 @@ export const AddCompanyData = (data: object) => {
 };
 
 export const EditCompanyData = (data: object, id: string) => {
-  // return {"response_type":"SUCCESS","data":'',"toast":true,"message":null};
   return axiosPut(`${prefix}/${id}`, data);
 };
 
@@ -26,6 +25,22 @@ export const DeletCompany = (id: number) => {
 
 
 
-export const GetAllOfficesById = (id: number) => {
-  return axiosGet(`${prefix}/office/getOfficelistByCompany?companyID=${id}`);
+
+/* OFFICE SERVICES */
+
+export const GetAllOfficesById = (id: number, query: string = "") => {
+  return axiosGet(`${prefix}/office/getOfficelistByCompany?companyID=${id}&${query}`);
+};
+
+
+export const AddOfficeData = (data: object) => {
+  return axiosPost(`${prefix}/office/addOffice`, data);
+};
+
+export const EditOfficeData = (data: object, id: string) => {
+  return axiosPut(`${prefix}/office/${id}`, data);
+};
+
+export const DeletOffice = (id: number) => {
+  return axiosDelete(`${prefix}/office/` + id);
 };

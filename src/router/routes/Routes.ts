@@ -48,7 +48,7 @@ export const RoutesPath = [
     element: CompanyList,
   },
   {
-    path: "/Office-List",
+    path: "admin/company/office/:id",
     name: "office Listing",
     element: OfficesList,
   },
