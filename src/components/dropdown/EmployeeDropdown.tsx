@@ -29,13 +29,13 @@ const EmployeeDropdown = ({ isShowMedicalStatus = false }) => {
   const activeEmployee = useSelector(activeEmployeeSelector);
   const fetchAllDetails = async () => {
     if (Number(activeClient) > 0) {
-      const response = await GetAllSegment(
-        `?sort=asc&clientId=${activeClient}`
-      );
-      if (response?.data?.responseData) {
-        const result = response?.data?.responseData;
-        dispatch(setSegmentData(result?.data));
-      }
+      // const response = await GetAllSegment(
+      //   `?sort=asc&clientId=${activeClient}`
+      // );
+      // if (response?.data?.responseData) {
+      //   const result = response?.data?.responseData;
+      //   dispatch(setSegmentData(result?.data));
+      // }
     }
     dispatch(setActiveEmployee(0));
   };

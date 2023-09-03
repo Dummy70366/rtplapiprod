@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 const OfficeList = () => {
   const { id } = useParams();
   const [limit, setLimit] = useState<number>(10);
-  const [openModal, setOpenModal] = useState<boolean>(false); // For Add Update Client Modal
+  const [openModal, setOpenModal] = useState<boolean>(false); // For Add Update Office Modal
   const dispatch = useDispatch();
   const currentPage = useSelector(currentPageSelector);
   const [open, setOpen] = useState(false); // For Delete Modal
@@ -26,7 +26,7 @@ const OfficeList = () => {
   const [sortType, setSortingType] = useState<boolean>(true);
     const navigate = useNavigate();
 
-  const [clientDataPage, setClientDataPage] = useState<{
+  const [officeDataPage, setOfficeDataPage] = useState<{
     data: any;
     totalPage: number;
     totalCount: number;
@@ -35,7 +35,7 @@ const OfficeList = () => {
     totalPage: 0,
     totalCount: 0,
   });
-  const [clientId, setClientId] = useState<string>("");
+  const [officeId, setOfficeId] = useState<string>("");
   const queryString =
   `?limit=${limit}&page=${currentPage}&sort=${
     sortType ? "asc" : "desc"
@@ -48,16 +48,16 @@ const OfficeList = () => {
   useEffect(() => {
     if(id)
     console.log(id);
-    fetchAllClient(id,queryString);
+    fetchAllOffice(id,queryString);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit,  sort, sortType]);
 
-  async function fetchAllClient(id:any,query: string) {
+  async function fetchAllOffice(id:any,query: string) {
     setLoader(true);
     const response = await GetAllOfficesById(id,query);
-    if (response?.data?.data) {
-      const result = response?.data?.data;
-      setClientDataPage({
+    if (response?.data?.responseData) {
+      const result = response?.data?.responseData;
+      setOfficeDataPage({
         data: result.data,
         totalCount: result.count,
         totalPage: result.lastPage,
@@ -68,7 +68,7 @@ const OfficeList = () => {
   }
 
 
-  const toggleButtonChange  = ( event :any, companyID:number)=>{
+  const toggleButtonChange  = ( event :any, companyID:any)=>{
     if(event.target.checked)
     {
       statusChange(companyID,true);
@@ -94,15 +94,15 @@ const OfficeList = () => {
   }
 
   const handleOpenModal = (id: string) => {
-    setClientId(id);
+    setOfficeId(id);
     setOpen(true);
   };
 
-  const clientDelete = async (id: string) => {
+  const officeDelete = async (id: string) => {
     try {
       const response = await DeletOffice(Number(id));
       if (response?.data?.response_type === "SUCCESS") {
-        await fetchAllClient(id,queryString);
+        await fetchAllOffice(id,queryString);
       }
       
       setOpen(false);
@@ -171,7 +171,7 @@ const OfficeList = () => {
     <>
 
       <button type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-       onClick={() =>navigate('/admin/company/')}
+       onClick={() =>navigate('/admin/company')}
       >
       <LeftArrowIcon className="w-ful h-full pointer-events-none" />
       
@@ -179,11 +179,11 @@ const OfficeList = () => {
 
     <Table
       headerData={columnData}
-      bodyData={clientDataPage.data}
+      bodyData={officeDataPage.data}
       isButton={true}
       buttonText="Add Office"
       buttonClick={() => {
-        setClientId("");
+        setOfficeId("");
         setOpenModal(true);
       }}
       loader={loader}
@@ -191,7 +191,7 @@ const OfficeList = () => {
       dataPerPage={limit}
       setLimit={setLimit}
       currentPage={currentPage}
-      totalPage={clientDataPage.totalPage}
+      totalPage={officeDataPage.totalPage}
       setSorting={setSorting}
       sortType={sortType}
       setSortingType={setSortingType}
@@ -204,7 +204,7 @@ const OfficeList = () => {
         icon={<DeleteIcon className="w-full h-full mx-auto" />}
         okbtnText="Yes"
         cancelbtnText="No"
-        onClickHandler={() => clientDelete(clientId)}
+        onClickHandler={() => officeDelete(officeId)}
         confirmationText="Are you sure you want to delete this Company?"
         title="Delete"
       >
@@ -213,12 +213,12 @@ const OfficeList = () => {
     )}
     {openModal && (
       <AddUpdateOffice
-        // id={clientId}
+        // id={officeId}
         openModal={openModal}
         companyId={id}
         setOpenModal={setOpenModal}
         fetchAllData={() => {
-          fetchAllClient(id,queryString);
+          fetchAllOffice(id,queryString);
         }}
       />
     )}

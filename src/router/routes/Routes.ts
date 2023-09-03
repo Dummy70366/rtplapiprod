@@ -6,7 +6,8 @@ import ForgotOTPVerification from "@/pages/auth/ForgotOTPVerification";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import Register from "@/pages/auth/Register";
 import CompanyList from "@/pages/admin/Company/CompanyList";
-import OfficesList from "@/pages/admin/offices/OfficesList";
+import OfficesList from "@/pages/admin/Offices/OfficesList";
+import EmployeeList from "@/pages/admin/Employee/EmployeeList";
 
 export const AuthRoutes = [
   {
@@ -49,8 +50,13 @@ export const RoutesPath = [
   },
   {
     path: "admin/company/office/:id",
-    name: "office Listing",
+    name: "Office Listing",
     element: OfficesList,
+  },
+  {
+    path: "admin/employee",
+    name: "Employee Listing",
+    element: EmployeeList,
   },
 ];
 

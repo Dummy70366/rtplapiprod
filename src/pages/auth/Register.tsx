@@ -12,11 +12,11 @@ import { RegisterUser } from "@/services/authService";
 import { RegisterValidationSchema } from "@/validations/auth/RegisterValidation";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { GetRolesListData } from "@/services/RoleService";
+import { Link } from "react-router-dom";
+import { GetRolesListData } from "@/services/roleService";
 
 const Register = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [companyOptions, setCompanyOptions] = useState<Option[]>([]);
