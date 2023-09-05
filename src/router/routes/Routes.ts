@@ -8,6 +8,7 @@ import Register from "@/pages/auth/Register";
 import CompanyList from "@/pages/admin/Company/CompanyList";
 import OfficesList from "@/pages/admin/Offices/OfficesList";
 import EmployeeList from "@/pages/admin/Employee/EmployeeList";
+import  VisitorRegister from "@/pages/admin/Visitor/VisitorRegister";
 
 export const AuthRoutes = [
   {
@@ -57,6 +58,11 @@ export const RoutesPath = [
     path: "admin/employee",
     name: "Employee Listing",
     element: EmployeeList,
+  },
+  {
+    path: "admin/visitor/register",
+    name: "Visitor Registration",
+    element: VisitorRegister,
   },
 ];
 

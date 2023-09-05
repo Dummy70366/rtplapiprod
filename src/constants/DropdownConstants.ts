@@ -123,15 +123,15 @@ export const MenuList = [
     subMenu: false,
   },
   {
-    name: "Visitor",
+    name: "Employee",
     link: "#",
     icon: RoundUserIcon,
     subMenu: true,
     subMenuList: [
       {
         name: "List",
-        id: "visitor",
-        link: "admin/visitor",
+        id: "employee",
+        link: "admin/employee",
       },
     ],
   },
@@ -142,9 +142,9 @@ export const MenuList = [
     subMenu: true,
     subMenuList: [
       {
-        name: "",
+        name: "Add Visior",
         id: "user",
-        link: "admin/user",
+        link: "admin/visitor/register",
       },
     ],
   },

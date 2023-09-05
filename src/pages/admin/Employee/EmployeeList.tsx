@@ -8,13 +8,13 @@ import {
 import { GetAllEmployee,DeleteEmployee,EditEmployeeData } from "@/services/employeeService";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import AddUpdateCompany from "./AddUpdateCompany";
-import { setCompanyData } from "@/redux/slices/companySlice";
+import UpdateEmployee from "./UpdateEmployee";
+import { setEmployeeData } from "@/redux/slices/employeeSlice";
 import { useNavigate } from "react-router-dom";
 
 const EmployeeList = () => {
   const [limit, setLimit] = useState<number>(10);
-  const [openModal, setOpenModal] = useState<boolean>(false); // For Add Update Company Modal
+  const [openModal, setOpenModal] = useState<boolean>(false); // For Add Update Employee Modal
   const dispatch = useDispatch();
   const currentPage = useSelector(currentPageSelector);
   const [open, setOpen] = useState(false); // For Delete Modal
@@ -23,7 +23,7 @@ const EmployeeList = () => {
   const [sortType, setSortingType] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const [companyDataPage, setCompanyDataPage] = useState<{
+  const [employeeDataPage, setEmployeeDataPage] = useState<{
     data: any;
     totalPage: number;
     totalCount: number;
@@ -32,7 +32,7 @@ const EmployeeList = () => {
     totalPage: 0,
     totalCount: 0,
   });
-  const [companyId, setCompanyId] = useState<string>("");
+  const [employeeId, setEmployeeId] = useState<string>("");
   const queryString =
   `?limit=${limit}&page=${currentPage}&sort=${
     sortType ? "asc" : "desc"
@@ -43,21 +43,21 @@ const EmployeeList = () => {
   }, []);
 
   useEffect(() => {
-    fetchAllCompany(queryString);
+    fetchAllEmployee(queryString);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit,  sort, sortType]);
 
-  async function fetchAllCompany(query: string) {
+  async function fetchAllEmployee(query: string) {
     setLoader(true);
     const response = await GetAllEmployee(query);
     if (response?.data?.responseData) {
       const result = response?.data?.responseData;
-      setCompanyDataPage({
+      setEmployeeDataPage({
         data: result.data,
         totalCount: result.count,
         totalPage: result.lastPage,
       });
-      dispatch(setCompanyData(result.data));
+      dispatch(setEmployeeData(result.data));
     }
     setLoader(false);
   }
@@ -89,15 +89,15 @@ const EmployeeList = () => {
   }
 
   const handleOpenModal = (id: string) => {
-    setCompanyId(id);
+    setEmployeeId(id);
     setOpen(true);
   };
 
-  const companyDelete = async (id: string) => {
+  const employeeDelete = async (id: string) => {
     try {
       const response = await DeleteEmployee(Number(id));
       if (response?.data?.response_type === "SUCCESS") {
-        await fetchAllCompany(queryString);
+        await fetchAllEmployee(queryString);
       }
       
       setOpen(false);
@@ -145,17 +145,6 @@ const EmployeeList = () => {
       },
     },
     {
-      header: "Company",
-      className: "",
-      commonClass: "",
-      option: {
-        sort: true,
-      },
-      cell: (props: { company: any;}) => {
-        return (props.company.Name);
-      },
-    },
-    {
       header: "Designation",
       className: "",
       commonClass: "",
@@ -194,38 +183,31 @@ const EmployeeList = () => {
       },
 
     },
-    // {
-    //   header: "Action",
-    //   cell: (props: { empID: string;}) => {
-    //     return (
-    //       <div className="flex items-center gap-1.5">
-    //         <span
-    //           className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-black/10 text-dark p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
-    //           onClick={() => {
-    //             setCompanyId(props.empID);
-    //             setOpenModal(true);
-    //           }}
-    //         >
-    //           <EditIocn className="w-ful h-full pointer-events-none" />
-    //         </span>
-    //         <span
-    //           className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-black/10 text-dark p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
-    //           onClick={() => {
-    //             navigate('/admin/company/office/'+props.empID);
-    //           }}
-    //         >
-    //           <IconEye className="w-ful h-full pointer-events-none" />
-    //         </span>
-    //         <span
-    //           className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-red/10 text-red p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
-    //           onClick={() => handleOpenModal(props.empID)}
-    //         >
-    //           <DeleteIcon className="w-ful h-full pointer-events-none" />
-    //         </span>
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      header: "Action",
+      cell: (props: { empID: string;}) => {
+        return (
+          <div className="flex items-center gap-1.5">
+            <span
+              className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-black/10 text-dark p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
+              onClick={() => {
+                setEmployeeId(props.empID);
+                setOpenModal(true);
+              }}
+            >
+              <EditIocn className="w-ful h-full pointer-events-none" />
+            </span>
+          
+            <span
+              className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-red/10 text-red p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
+              onClick={() => handleOpenModal(props.empID)}
+            >
+              <DeleteIcon className="w-ful h-full pointer-events-none" />
+            </span>
+          </div>
+        );
+      },
+    },
   ];
 
 
@@ -233,11 +215,11 @@ const EmployeeList = () => {
     <>
     <Table
       headerData={columnData}
-      bodyData={companyDataPage.data}
+      bodyData={employeeDataPage.data}
       // isButton={true}
-      // buttonText="Add Company"
+      // buttonText="Add Employee"
       // buttonClick={() => {
-      //   setCompanyId("");
+      //   setEmployeeId("");
       //   setOpenModal(true);
       // }}
       loader={loader}
@@ -245,7 +227,7 @@ const EmployeeList = () => {
       dataPerPage={limit}
       setLimit={setLimit}
       currentPage={currentPage}
-      totalPage={companyDataPage.totalPage}
+      totalPage={employeeDataPage.totalPage}
       setSorting={setSorting}
       sortType={sortType}
       setSortingType={setSortingType}
@@ -258,23 +240,26 @@ const EmployeeList = () => {
         icon={<DeleteIcon className="w-full h-full mx-auto" />}
         okbtnText="Yes"
         cancelbtnText="No"
-        onClickHandler={() => companyDelete(companyId)}
-        confirmationText="Are you sure you want to delete this Company?"
+        onClickHandler={() => employeeDelete(employeeId)}
+        confirmationText="Are you sure you want to delete this Employee?"
         title="Delete"
       >
         <div className=""></div>
       </Modal>
     )}
-    {/* {openModal && (
-      <AddUpdateCompany
-        id={companyId}
+    {openModal && (
+      <UpdateEmployee
+        id={employeeId}
         openModal={openModal}
         setOpenModal={setOpenModal}
         fetchAllData={() => {
-          fetchAllCompany(queryString);
+          fetchAllEmployee(queryString);
         }}
       />
-    )} */}
+
+
+      
+    )}
   </>
   );
 };

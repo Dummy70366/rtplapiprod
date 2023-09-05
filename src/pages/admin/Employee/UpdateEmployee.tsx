@@ -10,19 +10,20 @@ import { Form, Formik, FormikValues } from "formik";
 // import Textarea from "@/components/formComponents/textarea/Textarea";
 // import { ICompanyData } from "@/interface/Company/CompanyInterface";
 import {
-  AddCompanyData,
-  EditCompanyData,
-  GetCompanyDataById,
-} from "@/services/companyService";
+  // AddCompanyData,
+  EditEmployeeData,
+  GetEmployeeDataById,
+} from "@/services/employeeService";
 import Button from "@/components/formComponents/button/Button";
 import { CompanyValidationSchema } from "@/validations/company/CompanyValidation";
 // import FileInput from "@/components/formComponents/fileInput/FileInput";
 import { useEffect, useState } from "react";
 
 const defaultInitialValues: any = {
-  Name: "",
+  firstName: "",
+  lastName: "",
   email:"",
-  contact:""
+  phone:""
 };
 
 interface AddUpdateCompanyProps {
@@ -46,22 +47,23 @@ const UpdateEmployee = ({
     setLoader(true);
     
     const formData = {
-        Name:values.Name.trim(),
-        email:values.email.trim(),
-        contact:values.contact.trim()
+      firstName:values.firstName.trim(),
+      lastName:values.lastName.trim(),
+      email:values.email.trim(),
+      phone:values.phone.trim()
     }
     if (id) {
-      const response = await EditCompanyData(formData, id);
-      if (response?.data?.response_type === "SUCCESS") {
+      const response = await EditEmployeeData(formData, id);
+      if (response?.data?.response_type === "GetEmployeeDataByIdCCESS") {
         setOpenModal(false);
         fetchAllData?.();
       }
     } else {
-      const response = await AddCompanyData(formData);
-      if (response?.data?.response_type === "SUCCESS") {
-        setOpenModal(false);
-        fetchAllData?.();
-      }
+      // const response = await AddCompanyData(formData);
+      // if (response?.data?.response_type === "SUCCESS") {
+      //   setOpenModal(false);
+      //   fetchAllData?.();
+      // }
     }
     setLoader(false);
   };
@@ -75,15 +77,14 @@ const UpdateEmployee = ({
 
   async function fetchCompanyData(id: string) {
     try {
-      const response = await GetCompanyDataById(id);
-      console.log(response);
+      const response = await GetEmployeeDataById(id);
 
       if (response?.data?.data) {
         const resultData = response?.data?.data;
         setCompanyData({
             Name: resultData.Name,
             email:resultData.email,
-            contact:resultData.contact
+            phone:resultData.phone
         });
       }
     } catch (error) {
@@ -130,7 +131,7 @@ const UpdateEmployee = ({
                       placeholder={"Enter Email"}
                     />
                      <TextField
-                      name="contact"
+                      name="phone"
                       parentClass="col-span-2"
                       type="text"
                       smallFiled={true}
