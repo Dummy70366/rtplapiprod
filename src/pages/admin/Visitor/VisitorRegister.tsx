@@ -1,12 +1,16 @@
 import Modal from "@/components/modal/Modal";
-import { DeleteIcon, EditIocn,IconEye } from "@/components/svgIcons";
+import { DeleteIcon, EditIocn, IconEye } from "@/components/svgIcons";
 import Table from "@/components/table/Table";
 import MeetingForm from "@/components/meetingForm/MeetingForm";
 import {
   currentPageCount,
   currentPageSelector,
 } from "@/redux/slices/paginationSlice";
-import { GetCompanyListData,DeletCompany,EditCompanyData } from "@/services/companyService";
+import {
+  GetCompanyListData,
+  DeletCompany,
+  EditCompanyData,
+} from "@/services/companyService";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompanyData } from "@/redux/slices/companySlice";
@@ -23,31 +27,18 @@ const VisitorRegister = () => {
   const [sortType, setSortingType] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  
-  
-
- 
-
- 
-
   const handleOpenModal = (id: string) => {
     // setCompanyId(id);
     // setOpen(true);
   };
 
-  
-
-  
-
-
   return (
     <>
-    <MeetingForm 
-    isAddNew = {true}
-    // visitorCount = {5}
-
-    />
-  </>
+      <MeetingForm
+        isAddNew={true}
+        // visitorCount = {5}
+      />
+    </>
   );
 };
 

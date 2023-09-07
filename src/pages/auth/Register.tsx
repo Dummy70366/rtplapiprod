@@ -1,6 +1,8 @@
 import Button from "@/components/formComponents/button/Button";
 import SelectComponent from "@/components/formComponents/customSelect/Select";
 import TextField from "@/components/formComponents/textField/TextField";
+import DateComponent from "@/components/formComponents/dateComponent/DateComponent";
+
 import { IconEye, IconEyeSlash } from "@/components/svgIcons";
 import { IRegisterForm } from "@/interface/auth/registerInterface";
 import { Option } from "@/interface/customSelect/customSelect";
@@ -32,6 +34,7 @@ const Register = () => {
     firstName: "",
     lastName: "",
     email: "",
+    birthdate: "",
     password: "",
     confirmPassword: "",
     empCode: "",
@@ -58,8 +61,8 @@ const Register = () => {
   async function getCompanyList() {
     const response = await GetCompanyListData();
     if (response?.data.response_type === "SUCCESS") {
-      console.log(response?.data.data.data);
-      const temp = response?.data.data.data.map((value: any) => ({
+      // console.log(response?.data.data.data);
+      const temp = response?.data.responseData.data.map((value: any) => ({
         label: value.Name,
         value: value.companyID,
       }));
@@ -71,7 +74,7 @@ const Register = () => {
     const response = await GetRolesListData();
 
     if (response?.data.response_type === "SUCCESS") {
-      const temp = response?.data.data.data.map((value: any) => ({
+      const temp = response?.data.responseData.data.map((value: any) => ({
         label: value.role,
         value: value.roleID,
       }));
@@ -83,7 +86,7 @@ const Register = () => {
     if (id) {
       const response = await GetAllOfficesById(Number(id));
       if (response?.data.response_type === "SUCCESS") {
-        const temp = response?.data.data.data.map((value: any) => ({
+        const temp = response?.data.responseData.data.map((value: any) => ({
           label: value.Address,
           value: value.officeID,
         }));
@@ -197,6 +200,28 @@ const Register = () => {
                               <TextField
                                 parentClass={"mb-6"}
                                 type={"text"}
+                                label="Mobile Number"
+                                name="mobileNo"
+                                isCompulsory={true}
+                                placeholder="Mobile Number"
+                              />
+                              <DateComponent
+                                name={`birthdate`}
+                                smallFiled
+                                label={"Birth Date"}
+                                parentClass="col-span-1"
+                                dateFormat="dd-mm-yy"
+                                onChange={(date) => {
+                                  setFieldValue(`birthdate`, date);
+                                }}
+                                isCompulsory={true}
+                                placeholder={"Enter Other Info (e.g. Month)"}
+                              />
+                            </div>
+                            <div className="input-item">
+                              <TextField
+                                parentClass={"mb-6"}
+                                type={"text"}
                                 label="Employee Code"
                                 name="empCode"
                                 isCompulsory={true}
@@ -223,56 +248,7 @@ const Register = () => {
                                 placeholder="Designation"
                               />{" "}
                             </div>
-                            <div className="input-item">
-                              <TextField
-                                parentClass={"mb-6"}
-                                type={showPassword ? "text" : "password"}
-                                label="Create Password"
-                                name="password"
-                                isCompulsory={true}
-                                placeholder="Create Password"
-                                icon={
-                                  <div
-                                    onClick={() =>
-                                      setShowPassword(!showPassword)
-                                    }
-                                    className="absolute right-4 top-10 rtl:left-4 rtl:right-auto cursor-pointer"
-                                  >
-                                    {showPassword ? (
-                                      <IconEye />
-                                    ) : (
-                                      <IconEyeSlash />
-                                    )}
-                                  </div>
-                                }
-                              />{" "}
-                            </div>
-                            <div className="input-item">
-                              <TextField
-                                parentClass={"mb-6"}
-                                type={showConfirmPassword ? "text" : "password"}
-                                label="Confirm Password"
-                                name="confirmPassword"
-                                isCompulsory={true}
-                                placeholder="Confirm Password"
-                                icon={
-                                  <div
-                                    onClick={() =>
-                                      setShowConfirmPassword(
-                                        !showConfirmPassword
-                                      )
-                                    }
-                                    className="absolute right-4 top-10 rtl:left-4 rtl:right-auto cursor-pointer"
-                                  >
-                                    {showConfirmPassword ? (
-                                      <IconEye />
-                                    ) : (
-                                      <IconEyeSlash />
-                                    )}
-                                  </div>
-                                }
-                              />{" "}
-                            </div>
+
                             <div className="input-item">
                               <SelectComponent
                                 name="companyName"
@@ -329,6 +305,56 @@ const Register = () => {
                                   );
                                 }}
                               />
+                            </div>
+                            <div className="input-item">
+                              <TextField
+                                parentClass={"mb-6"}
+                                type={showPassword ? "text" : "password"}
+                                label="Create Password"
+                                name="password"
+                                isCompulsory={true}
+                                placeholder="Create Password"
+                                icon={
+                                  <div
+                                    onClick={() =>
+                                      setShowPassword(!showPassword)
+                                    }
+                                    className="absolute right-4 top-10 rtl:left-4 rtl:right-auto cursor-pointer"
+                                  >
+                                    {showPassword ? (
+                                      <IconEye />
+                                    ) : (
+                                      <IconEyeSlash />
+                                    )}
+                                  </div>
+                                }
+                              />{" "}
+                            </div>
+                            <div className="input-item">
+                              <TextField
+                                parentClass={"mb-6"}
+                                type={showConfirmPassword ? "text" : "password"}
+                                label="Confirm Password"
+                                name="confirmPassword"
+                                isCompulsory={true}
+                                placeholder="Confirm Password"
+                                icon={
+                                  <div
+                                    onClick={() =>
+                                      setShowConfirmPassword(
+                                        !showConfirmPassword
+                                      )
+                                    }
+                                    className="absolute right-4 top-10 rtl:left-4 rtl:right-auto cursor-pointer"
+                                  >
+                                    {showConfirmPassword ? (
+                                      <IconEye />
+                                    ) : (
+                                      <IconEyeSlash />
+                                    )}
+                                  </div>
+                                }
+                              />{" "}
                             </div>
                             <div className="input-item">
                               <Button

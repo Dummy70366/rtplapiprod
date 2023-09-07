@@ -19,7 +19,7 @@ interface DateProps {
 }
 
 const DateComponent = (props: DateProps) => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
 
   useEffect(() => {
     props.value && setStartDate(props.value);

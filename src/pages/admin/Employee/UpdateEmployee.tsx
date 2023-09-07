@@ -22,8 +22,9 @@ import { useEffect, useState } from "react";
 const defaultInitialValues: any = {
   firstName: "",
   lastName: "",
-  email:"",
-  phone:""
+  empCode: "",
+  email: "",
+  phone: "",
 };
 
 interface AddUpdateCompanyProps {
@@ -39,22 +40,21 @@ const UpdateEmployee = ({
   setOpenModal,
   fetchAllData,
 }: AddUpdateCompanyProps) => {
-  const [CompanyData, setCompanyData] =
-    useState<any>(defaultInitialValues);
+  const [CompanyData, setCompanyData] = useState<any>(defaultInitialValues);
   const [loader, setLoader] = useState<boolean>(false);
 
   const OnSubmit = async (values: FormikValues) => {
     setLoader(true);
-    
+
     const formData = {
-      firstName:values.firstName.trim(),
-      lastName:values.lastName.trim(),
-      email:values.email.trim(),
-      phone:values.phone.trim()
-    }
+      firstName: values.firstName.trim(),
+      lastName: values.lastName.trim(),
+      email: values.email.trim(),
+      phone: values.phone.trim(),
+    };
     if (id) {
       const response = await EditEmployeeData(formData, id);
-      if (response?.data?.response_type === "GetEmployeeDataByIdCCESS") {
+      if (response?.data?.response_type === "SUCCESS") {
         setOpenModal(false);
         fetchAllData?.();
       }
@@ -67,7 +67,6 @@ const UpdateEmployee = ({
     }
     setLoader(false);
   };
-
 
   useEffect(() => {
     if (id) {
@@ -82,9 +81,11 @@ const UpdateEmployee = ({
       if (response?.data?.data) {
         const resultData = response?.data?.data;
         setCompanyData({
-            Name: resultData.Name,
-            email:resultData.email,
-            phone:resultData.phone
+          firstName: resultData.firstName,
+          lastName: resultData.lastName,
+          empCode: resultData.empCode,
+          email: resultData.email,
+          phone: resultData.phone,
         });
       }
     } catch (error) {
@@ -110,17 +111,26 @@ const UpdateEmployee = ({
             {({ values, setFieldValue }) => (
               <Form>
                 <Card title="Details" parentClass="mb-5 last:mb-0">
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid grid-cols-4 gap-5">
                     <TextField
-                      name="Name"
+                      name="firstName"
                       parentClass="col-span-2"
                       type="text"
                       smallFiled={true}
-                      label={"Name"}
+                      label={"First Name"}
                       isCompulsory={true}
-                      placeholder={"Enter Name"}
+                      placeholder={"Enter First Name"}
                     />
-                   
+                    <TextField
+                      name="lastName"
+                      parentClass="col-span-2"
+                      type="text"
+                      smallFiled={true}
+                      label={"Last Name"}
+                      isCompulsory={true}
+                      placeholder={"Enter Last Name"}
+                    />
+
                     <TextField
                       name="email"
                       parentClass="col-span-2"
@@ -130,7 +140,7 @@ const UpdateEmployee = ({
                       isCompulsory={true}
                       placeholder={"Enter Email"}
                     />
-                     <TextField
+                    <TextField
                       name="phone"
                       parentClass="col-span-2"
                       type="text"
@@ -139,11 +149,18 @@ const UpdateEmployee = ({
                       isCompulsory={true}
                       placeholder={"Enter Contact"}
                     />
-                   
+                    <TextField
+                      name="empCode"
+                      parentClass="col-span-2"
+                      type="text"
+                      smallFiled={true}
+                      label={"EmpCode"}
+                      isCompulsory={true}
+                      placeholder={"Enter EmpCode"}
+                    />
                   </div>
                 </Card>
-              
-              
+
                 <div className={`flex gap-4 justify-start p-1`}>
                   <Button type="submit" variant={"primary"} loader={loader}>
                     Save
