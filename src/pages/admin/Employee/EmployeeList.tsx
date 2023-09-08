@@ -126,7 +126,6 @@ const EmployeeList = () => {
     },
     {
       header: "Name",
-      name: "firstName",
       className: "",
       commonClass: "",
       option: {
@@ -137,7 +136,7 @@ const EmployeeList = () => {
       },
     },
     {
-      header: "email",
+      header: "Email",
       name: "email",
       option: {
         sort: true,
@@ -230,12 +229,12 @@ const EmployeeList = () => {
       <Table
         headerData={columnData}
         bodyData={employeeDataPage.data}
-        // isButton={true}
-        // buttonText="Add Employee"
-        // buttonClick={() => {
-        //   setEmployeeId("");
-        //   setOpenModal(true);
-        // }}
+        isButton={true}
+        buttonText="Add Employee"
+        buttonClick={() => {
+          setEmployeeId("");
+          setOpenModal(true);
+        }}
         loader={loader}
         pagination={true}
         dataPerPage={limit}
