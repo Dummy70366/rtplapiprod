@@ -123,28 +123,20 @@ export const MenuList = [
     subMenu: false,
   },
   {
-    name: "Employee",
+    name: "User",
     link: "#",
     icon: RoundUserIcon,
     subMenu: true,
     subMenuList: [
       {
-        name: "List",
+        name: "Employee",
         id: "employee",
-        link: "admin/employee",
+        link: "/admin/employee",
       },
-    ],
-  },
-  {
-    name: "Admin",
-    link: "#",
-    icon: SidebarAdmin,
-    subMenu: true,
-    subMenuList: [
       {
-        name: "Add Visior",
-        id: "user",
-        link: "admin/visitor/register",
+        name: "Role",
+        id: "role",
+        link: "/admin/role",
       },
     ],
   },
@@ -161,4 +153,18 @@ export const MenuList = [
       },
     ],
   },
+  {
+    name: "Admin",
+    link: "#",
+    icon: SidebarAdmin,
+    subMenu: true,
+    subMenuList: [
+      {
+        name: "Add Visior",
+        id: "user",
+        link: "/admin/visitor/register",
+      },
+    ],
+  },
+
 ];

@@ -6,7 +6,7 @@ export interface IAdminSideBarType {
 }
 
 const initialState = {
-  toggle: false,
+  toggle: true,
   activeTab: "",
 };
 

@@ -2,6 +2,7 @@ import Button from "@/components/formComponents/button/Button";
 import SelectComponent from "@/components/formComponents/customSelect/Select";
 import TextField from "@/components/formComponents/textField/TextField";
 import DateComponent from "@/components/formComponents/dateComponent/DateComponent";
+import FileInput from "@/components/formComponents/fileInput/FileInput";
 
 import { IconEye, IconEyeSlash } from "@/components/svgIcons";
 import { IRegisterForm } from "@/interface/auth/registerInterface";
@@ -10,12 +11,15 @@ import {
   GetAllOfficesById,
   GetCompanyListData,
 } from "@/services/companyService";
+import { GetAllDepartment } from "@/services/departmentService";
+import { GetAllDesignation } from "@/services/designationService";
 import { RegisterUser } from "@/services/authService";
 import { RegisterValidationSchema } from "@/validations/auth/RegisterValidation";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GetRolesListData } from "@/services/roleService";
+import Card from "@/components/card/Card";
 
 const Register = () => {
   // const navigate = useNavigate();
@@ -23,6 +27,8 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [companyOptions, setCompanyOptions] = useState<Option[]>([]);
   const [roleOptions, setRoleOptions] = useState<Option[]>([]);
+  const [departmentData, setDepartmentData] = useState<any>([]);
+  const [designationData, setDesignationData] = useState<any>([]);
   const [companyId, setCompanyId] = useState<string>("");
   const [officeAddressOptions, setOfficeAddressOptions] = useState<Option[]>(
     []
@@ -35,24 +41,29 @@ const Register = () => {
     lastName: "",
     email: "",
     birthdate: "",
+    joiningDate: "",
     password: "",
     confirmPassword: "",
     empCode: "",
-    department: "",
-    designation: "",
+    departmentID: "",
+    designationID: "",
     mobileNo: null,
-    companyName: "",
-    officeAddress: "",
+    companyID: "",
+    officeID: "",
     roleId: "",
+    empIDCard: {},
+    empAadharCard: {},
+    empProfileIMg: {},
   };
 
   useEffect(() => {
     getCompanyList();
     getRolesList();
+    getAllDepartment();
+    getAllDesignation();
   }, []);
 
   useEffect(() => {
-    console.log(companyId, "companyId");
     if (companyId !== "" || companyId !== undefined || companyId !== null) {
       getAddressListByCompanyId(companyId);
     }
@@ -66,7 +77,6 @@ const Register = () => {
         label: value.Name,
         value: value.companyID,
       }));
-      console.log(temp);
       setCompanyOptions(temp);
     }
   }
@@ -94,26 +104,60 @@ const Register = () => {
       }
     }
   };
+  const getAllDepartment = async () => {
+    let response = await GetAllDepartment("");
+    if (response?.data?.responseData) {
+      const resultData = response?.data?.responseData.data;
+      setDepartmentData(
+        resultData.length <= 0
+          ? []
+          : resultData.map((value) => ({
+              label: value.department,
+              value: value.departmentID,
+            }))
+      );
+    }
+  };
+  const getAllDesignation = async () => {
+    const response = await GetAllDesignation("");
+    if (response?.data?.responseData) {
+      const resultData = response?.data?.responseData.data;
+      setDesignationData(
+        resultData.length <= 0
+          ? []
+          : resultData.map((value) => ({
+              label: value.designation,
+              value: value.designationID,
+            }))
+      );
+    }
+  };
 
-  async function OnSubmit(data: IRegisterForm) {
-    console.log(data, "data while submit");
+  async function OnSubmit(data: any) {
     setLoader(true);
-    const params = {
-      phone: data.mobileNo,
-      companyID: data.companyName,
-      officeID: data.officeAddress,
-      roleID: data.roleId,
-      empCode: data.empCode,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      department: data.department,
-      // designataion: data.designation,
-      designtaion: data.designation,
-      password: data.password,
-    };
-    const response = await RegisterUser(params);
-    console.log(response.data, "response.data");
+    const formData = new FormData();
+    formData.append("phone", data.mobileNo);
+    formData.append("companyID", data.companyID);
+    formData.append("officeID", data.officeID);
+    formData.append("roleID", data.roleId);
+    formData.append("empCode", data.empCode);
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("email", data.email);
+    formData.append("birthDate", data.birthdate);
+    formData.append("joiningDate", data.birthdate);
+    formData.append("departmentID", data.departmentID);
+    formData.append("designationID", data.designationID);
+    formData.append("password", data.password);
+    formData.append("isActive", "false");
+    formData.append("empIDCard", data.empIDCard);
+    formData.append("empAadharCard", data.empAadharCard);
+    formData.append("empProfileIMg", data.empProfileIMg);
+    // console.log(data);
+    // for (const value of formData.values()) {
+    //   console.log(value);
+    // }
+    const response = await RegisterUser(formData);
     setLoader(false);
   }
   return (
@@ -196,23 +240,46 @@ const Register = () => {
                                 placeholder="Mobile Number"
                               />
                             </div>
+
                             <div className="input-item">
-                              <TextField
-                                parentClass={"mb-6"}
-                                type={"text"}
-                                label="Mobile Number"
-                                name="mobileNo"
-                                isCompulsory={true}
-                                placeholder="Mobile Number"
-                              />
+                              <Card
+                                title="Profile Image"
+                                parentClass="col-span-1 mb-5 last:mb-0"
+                              >
+                                <FileInput
+                                  setValue={(filed, file) => {
+                                    setFieldValue(filed, file);
+                                  }}
+                                  name="empProfileIMg"
+                                  value={null}
+                                  isImage={false}
+                                />
+                              </Card>
+                            </div>
+
+                            <div className="input-item">
                               <DateComponent
                                 name={`birthdate`}
                                 smallFiled
                                 label={"Birth Date"}
-                                parentClass="col-span-1"
-                                dateFormat="dd-mm-yy"
+                                parentClass="col-span-1 mb-6"
+                                dateFormat="dd-MM-yy"
                                 onChange={(date) => {
                                   setFieldValue(`birthdate`, date);
+                                }}
+                                isCompulsory={true}
+                                placeholder={"Enter Other Info (e.g. Month)"}
+                              />
+                            </div>
+                            <div className="input-item">
+                              <DateComponent
+                                name={`joiningDate`}
+                                smallFiled
+                                label={"Joining Date"}
+                                parentClass="col-span-1 mb-6"
+                                dateFormat="dd-MM-yy"
+                                onChange={(date) => {
+                                  setFieldValue(`joiningDate`, date);
                                 }}
                                 isCompulsory={true}
                                 placeholder={"Enter Other Info (e.g. Month)"}
@@ -229,39 +296,51 @@ const Register = () => {
                               />{" "}
                             </div>
                             <div className="input-item">
-                              <TextField
-                                parentClass={"mb-6"}
-                                type={"text"}
-                                label="Department"
-                                name="department"
+                              <SelectComponent
+                                name="departmentID"
+                                options={departmentData}
                                 isCompulsory={true}
-                                placeholder="Department"
-                              />{" "}
+                                isMulti={false}
+                                parentClass="col-span-1 mb-6"
+                                label="Designation"
+                                selectedValue={values.departmentID}
+                                placeholder="Select"
+                                onChange={(option: any) => {
+                                  console.log(option);
+                                  setFieldValue("departmentID", option.value);
+                                }}
+                              />
                             </div>
                             <div className="input-item">
-                              <TextField
-                                parentClass={"mb-6"}
-                                type={"text"}
-                                label="Designation"
-                                name="designation"
+                              <SelectComponent
+                                name="designationID"
+                                options={designationData}
                                 isCompulsory={true}
-                                placeholder="Designation"
-                              />{" "}
+                                isMulti={false}
+                                parentClass="col-span-1 mb-6"
+                                label="Designation"
+                                selectedValue={values.designationID}
+                                placeholder="Select"
+                                onChange={(option: any) => {
+                                  console.log(option);
+                                  setFieldValue("designationID", option.value);
+                                }}
+                              />
                             </div>
 
                             <div className="input-item">
                               <SelectComponent
-                                name="companyName"
+                                name="companyID"
                                 options={companyOptions}
                                 isCompulsory={true}
                                 isMulti={false}
                                 parentClass="mb-6"
                                 label="Company"
                                 placeholder="Select"
-                                selectedValue={values.companyName}
+                                selectedValue={values.companyID}
                                 onChange={(option: Option | Option[]) => {
                                   setFieldValue(
-                                    "companyName",
+                                    "companyID",
                                     (option as Option).value
                                   );
                                   setCompanyId(
@@ -273,16 +352,16 @@ const Register = () => {
                             <div className="input-item">
                               <SelectComponent
                                 parentClass="mb-6"
-                                name="officeAddress"
+                                name="officeID"
                                 options={officeAddressOptions}
                                 isCompulsory={true}
                                 isMulti={false}
                                 label="Office Addresses"
                                 placeholder="Select"
-                                selectedValue={values.officeAddress}
+                                selectedValue={values.officeID}
                                 onChange={(option: Option | Option[]) => {
                                   setFieldValue(
-                                    "officeAddress",
+                                    "officeID",
                                     (option as Option).value
                                   );
                                 }}
@@ -357,6 +436,37 @@ const Register = () => {
                               />{" "}
                             </div>
                             <div className="input-item">
+                              <Card
+                                title="ID Card"
+                                parentClass="col-span-1 mb-6"
+                              >
+                                <FileInput
+                                  setValue={(filed, file) => {
+                                    setFieldValue(filed, file);
+                                  }}
+                                  name="empIDCard"
+                                  value={null}
+                                  isImage={false}
+                                />
+                              </Card>
+                            </div>
+                            <div className="input-item">
+                              <Card
+                                title="Adhar Card"
+                                parentClass="col-span-1 mb-5 last:mb-0"
+                              >
+                                <FileInput
+                                  setValue={(filed, file) => {
+                                    setFieldValue(filed, file);
+                                  }}
+                                  name="empAadharCard"
+                                  value={null}
+                                  isImage={false}
+                                />
+                              </Card>
+                            </div>
+
+                            <div className="input-item">
                               <Button
                                 variant={"primary"}
                                 type="submit"
@@ -390,7 +500,7 @@ const Register = () => {
                     <span className="inline-block text-primaryBlack1">
                       Register to Visit ?
                     </span>
-                    <Link to="/login">
+                    <Link to="/visitor/register">
                       <span className="inline-block cursor-pointer text-inputBorder ms-1 text-primaryRed hover:underline ">
                         Visitor Registration
                       </span>

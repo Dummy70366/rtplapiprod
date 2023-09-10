@@ -1,6 +1,7 @@
 import Modal from "@/components/modal/Modal";
 import { DeleteIcon, EditIocn, IconEye } from "@/components/svgIcons";
 import Table from "@/components/table/Table";
+import { userSelector } from "@/redux/slices/userSlice";
 import {
   currentPageCount,
   currentPageSelector,
@@ -12,7 +13,7 @@ import {
 } from "@/services/employeeService";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import UpdateEmployee from "./UpdateEmployee";
+import AddUpdateEmployee from "./AddUpdateEmployee";
 import { setEmployeeData } from "@/redux/slices/employeeSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +22,7 @@ const EmployeeList = () => {
   const [openModal, setOpenModal] = useState<boolean>(false); // For Add Update Employee Modal
   const dispatch = useDispatch();
   const currentPage = useSelector(currentPageSelector);
+  const user = useSelector(userSelector);
   const [open, setOpen] = useState(false); // For Delete Modal
   const [loader, setLoader] = useState<boolean>(true);
   const [sort, setSorting] = useState<string>("");
@@ -179,18 +181,30 @@ const EmployeeList = () => {
       className: "",
       commonClass: "",
       cell: (props: { empID: string; isActive: boolean }) => {
+        let readonly = true;
+        if (user.empID == props.empID) readonly = false;
         return (
           <div className="flex items-center gap-1.5">
             <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                defaultChecked={props.isActive}
-                readOnly
-                onChange={(e) => {
-                  toggleButtonChange(e, props.empID);
-                }}
-                className="sr-only peer"
-              />
+              {readonly ? (
+                <input
+                  type="checkbox"
+                  defaultChecked={props.isActive}
+                  readOnly
+                  onChange={(e) => {
+                    toggleButtonChange(e, props.empID);
+                  }}
+                  className="sr-only peer"
+                />
+              ) : (
+                <input
+                  type="checkbox"
+                  checked={props.isActive}
+                  readOnly
+                  className="sr-only peer"
+                />
+              )}
+
               <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
             </label>
           </div>
@@ -200,26 +214,30 @@ const EmployeeList = () => {
     {
       header: "Action",
       cell: (props: { empID: string }) => {
-        return (
-          <div className="flex items-center gap-1.5">
-            <span
-              className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-black/10 text-dark p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
-              onClick={() => {
-                setEmployeeId(props.empID);
-                setOpenModal(true);
-              }}
-            >
-              <EditIocn className="w-ful h-full pointer-events-none" />
-            </span>
+        if (user.empID != props.empID)
+          return (
+            <div className="flex items-center gap-1.5">
+              <span
+                className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-black/10 text-dark p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
+                onClick={() => {
+                  setEmployeeId(props.empID);
+                  setOpenModal(true);
+                }}
+              >
+                <EditIocn className="w-ful h-full pointer-events-none" />
+              </span>
 
-            <span
-              className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-red/10 text-red p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
-              onClick={() => handleOpenModal(props.empID)}
-            >
-              <DeleteIcon className="w-ful h-full pointer-events-none" />
-            </span>
-          </div>
-        );
+              <span
+                className="w-7 h-7 inline-flex cursor-pointer items-center justify-center active:scale-90 transition-all duration-300 origin-center hover:bg-red/10 text-red p-1 rounded active:ring-2 active:ring-current active:ring-offset-2"
+                onClick={() => handleOpenModal(props.empID)}
+              >
+                <DeleteIcon className="w-ful h-full pointer-events-none" />
+              </span>
+            </div>
+          );
+        else {
+          return <></>;
+        }
       },
     },
   ];
@@ -261,7 +279,7 @@ const EmployeeList = () => {
         </Modal>
       )}
       {openModal && (
-        <UpdateEmployee
+        <AddUpdateEmployee
           id={employeeId}
           openModal={openModal}
           setOpenModal={setOpenModal}

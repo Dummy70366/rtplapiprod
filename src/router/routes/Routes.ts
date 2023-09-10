@@ -8,7 +8,9 @@ import Register from "@/pages/auth/Register";
 import CompanyList from "@/pages/admin/Company/CompanyList";
 import OfficesList from "@/pages/admin/Offices/OfficesList";
 import EmployeeList from "@/pages/admin/Employee/EmployeeList";
-import  VisitorRegister from "@/pages/admin/Visitor/VisitorRegister";
+import RoleList from "@/pages/admin/Role/RoleList";
+import VisitorRegister from "@/pages/auth/VisitorRegister";
+import StaffVisitorRegister from "@/pages/admin/Visitor/StaffVisitorRegister";
 
 export const AuthRoutes = [
   {
@@ -36,6 +38,11 @@ export const AuthRoutes = [
     name: "Reset Password",
     element: ResetPassword,
   },
+  {
+    path: "/visitor/register",
+    name: "Visitor Registration",
+    element: VisitorRegister,
+  },
 ];
 
 export const RoutesPath = [
@@ -60,9 +67,14 @@ export const RoutesPath = [
     element: EmployeeList,
   },
   {
+    path: "admin/role",
+    name: "Role Listing",
+    element: RoleList,
+  },
+  {
     path: "admin/visitor/register",
     name: "Visitor Registration",
-    element: VisitorRegister,
+    element: StaffVisitorRegister,
   },
 ];
 

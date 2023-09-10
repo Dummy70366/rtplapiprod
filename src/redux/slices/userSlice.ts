@@ -4,7 +4,7 @@ import { User } from "../../interface/user/userInterface";
 
 export interface IuserInitialRedux {
   token: null | string;
-  user: User | null;
+  user: any | null;
   reset_pass_token?: string;
 }
 

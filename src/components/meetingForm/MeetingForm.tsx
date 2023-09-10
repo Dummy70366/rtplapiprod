@@ -44,24 +44,6 @@ const MeetingForm = ({ isAddNew }: FormProps) => {
   });
 
   const OnSubmit = async (values: FormikValues) => {
-    // console.log(values);
-    // "purpose": "First meeeting",
-    // "visitors": [
-    //   {
-    //     "vFirstName": "hsfjk",
-    //     "vLastName": "sdas",
-    //     "vDateOfBirth": "1989-07-08 05:29:33",
-    //     "vImage": "url//fdfdslf.com",
-    //     "vIDDoc": "sds./sdsd/dasd/",
-    //     "vCompanyName": "sfsfsf",
-    //     "vDesignation": "ssere",
-    //     "vCompanyAddress": "rter",
-    //     "vCompanyContact": "4335453443",
-    //     "vCompanyEmail": "ravi@gmail.com",
-    //     "vAnniversaryDate": "2024-07-08 05:29:33"
-    //   },
-
-    // ]
     let formdata = {
       purpose: values.purpose,
       visitors: values.visitors.map((visitor) => {
@@ -316,11 +298,12 @@ const MeetingForm = ({ isAddNew }: FormProps) => {
 
             <div
               className={
-                "flex gap-4  p-1" + (isAddNew ? "justify-start" : "justify-end")
+                "mx-10 my-5 flex gap-4  p-1 " +
+                (isAddNew ? "justify-end" : "justify-end")
               }
             >
               <Button type="submit" variant={"primary"} loader={loader}>
-                Save
+                {isAddNew ? "Save" : "Submit Request"}
               </Button>
             </div>
           </Form>

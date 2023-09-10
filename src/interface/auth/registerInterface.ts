@@ -11,4 +11,7 @@ export interface IRegisterForm {
   companyName: string | number;
   officeAddress: string | number;
   roleId: string | number;
+  empIDCard: object,
+  empAadharCard: object,
+  empProfileIMg: object,
 }

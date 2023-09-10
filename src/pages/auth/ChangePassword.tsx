@@ -7,7 +7,13 @@ import TextField from "@/components/formComponents/textField/TextField";
 import { IconEye, IconEyeSlash } from "@/components/svgIcons";
 import { ChangePasswordValidationSchema } from "@/validations/auth/ChangePasswordValidation";
 import { ChangePasswordData } from "@/services/authService";
-
+import { useSelector } from "react-redux";
+import {
+  removeToken,
+  setToken,
+  setUser,
+  userSelector,
+} from "@/redux/slices/userSlice";
 interface ChangePasswordModal {
   openModal: boolean;
   closeModal: () => void;
@@ -20,6 +26,8 @@ const defaultInitialValues = {
 };
 
 const ChangePassword = ({ openModal, closeModal }: ChangePasswordModal) => {
+  const user = useSelector(userSelector);
+
   const [loader, setLoader] = useState(false);
   const [passwordShow, setPasswordShow] = useState({
     oldPassword: false,
@@ -30,7 +38,8 @@ const ChangePassword = ({ openModal, closeModal }: ChangePasswordModal) => {
   async function OnSubmit(data: IChangePassword) {
     setLoader(true);
     const params = {
-      oldPassword: data.oldPassword,
+      empID: user.empID,
+      currentPassword: data.oldPassword,
       newPassword: data.password,
     };
     const response = await ChangePasswordData(params);
@@ -53,7 +62,7 @@ const ChangePassword = ({ openModal, closeModal }: ChangePasswordModal) => {
         >
           <Formik
             initialValues={defaultInitialValues}
-            validationSchema={ChangePasswordValidationSchema()}
+            // validationSchema={ChangePasswordValidationSchema()}
             onSubmit={OnSubmit}
           >
             {() => (
