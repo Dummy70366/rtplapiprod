@@ -5,9 +5,7 @@ import Textarea from "@/components/formComponents/textarea/Textarea";
 import TextField from "@/components/formComponents/textField/TextField";
 import DateComponent from "@/components/formComponents/dateComponent/DateComponent";
 
-// import {
-//   AddOfficeData
-// } from "@/services/companyService";
+import { AddNewVisitorData } from "@/services/visitorService";
 import Button from "@/components/formComponents/button/Button";
 import { VisitorValidationSchema } from "@/validations/visitor/VisitorValidation";
 import { useEffect, useState } from "react";
@@ -62,7 +60,13 @@ const MeetingForm = ({ isAddNew }: FormProps) => {
         };
       }),
     };
+
     console.log(formdata);
+    const response = await AddNewVisitorData(formdata);
+    if (response?.data?.response_type === "SUCCESS") {
+      alert("done");
+    }
+    // ;
   };
 
   useEffect(() => {
@@ -273,17 +277,20 @@ const MeetingForm = ({ isAddNew }: FormProps) => {
                                       <CrossIcon />
                                     </Button>
                                   )}
-                                  {key == visitors.length - 1 && (
-                                    <Button
-                                      onClickHandler={(e) =>
-                                        push({ ...defaultVisitorInitialValues })
-                                      }
-                                      variant={"primary"}
-                                      parentClass="my-5 w-100"
-                                    >
-                                      <PlusIcon />
-                                    </Button>
-                                  )}
+                                  {key == visitors.length - 1 &&
+                                    visitors.length < 5 && (
+                                      <Button
+                                        onClickHandler={(e) =>
+                                          push({
+                                            ...defaultVisitorInitialValues,
+                                          })
+                                        }
+                                        variant={"primary"}
+                                        parentClass="my-5 w-100"
+                                      >
+                                        <PlusIcon />
+                                      </Button>
+                                    )}
                                 </div>
                               )}
                             </div>

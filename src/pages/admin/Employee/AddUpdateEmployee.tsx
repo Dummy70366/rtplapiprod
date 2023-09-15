@@ -86,7 +86,6 @@ const AddUpdateEmployee = ({
     formData.append("joiningDate", values.birthdate);
     formData.append("departmentID", values.departmentID);
     formData.append("designationID", values.designationID);
-    formData.append("isActive", "false");
     formData.append("empIDCard", values.empIDCard);
     formData.append("empAadharCard", values.empAadharCard);
     formData.append("empProfileIMg", values.empProfileIMg);
@@ -98,6 +97,7 @@ const AddUpdateEmployee = ({
         fetchAllData?.();
       }
     } else {
+      formData.append("isActive", "false");
       const response = await RegisterUser(formData);
       if (response?.data?.response_type === "SUCCESS") {
         setOpenModal(false);
@@ -372,7 +372,7 @@ const AddUpdateEmployee = ({
                             isCompulsory={true}
                             isMulti={false}
                             parentClass="col-span-1"
-                            label="Designation"
+                            label="Department"
                             selectedValue={values.departmentID}
                             placeholder="Select"
                             onChange={(option: any) => {

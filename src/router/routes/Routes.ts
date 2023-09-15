@@ -11,6 +11,10 @@ import EmployeeList from "@/pages/admin/Employee/EmployeeList";
 import RoleList from "@/pages/admin/Role/RoleList";
 import VisitorRegister from "@/pages/auth/VisitorRegister";
 import StaffVisitorRegister from "@/pages/admin/Visitor/StaffVisitorRegister";
+import StaffVisitorList from "@/pages/admin/Visitor/StaffVisitorList";
+import DepartmentList from "@/pages/admin/Department/DepartmentList";
+import StaffVisitorDetails from "@/pages/admin/Visitor/StaffVisitorDetails";
+import DesignationList from "@/pages/admin/Designation/DesignationList";
 
 export const AuthRoutes = [
   {
@@ -72,9 +76,29 @@ export const RoutesPath = [
     element: RoleList,
   },
   {
+    path: "admin/department",
+    name: "Department Listing",
+    element: DepartmentList,
+  },
+  {
+    path: "admin/designation",
+    name: "Designation Listing",
+    element: DesignationList,
+  },
+  {
     path: "admin/visitor/register",
     name: "Visitor Registration",
     element: StaffVisitorRegister,
+  },
+  {
+    path: "admin/visitor",
+    name: "Visitor Registration",
+    element: StaffVisitorList,
+  },
+  {
+    path: "admin/visitor/details/:token",
+    name: "Visitor Details",
+    element: StaffVisitorDetails,
   },
 ];
 

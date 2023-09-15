@@ -23,7 +23,7 @@ const Header = () => {
   const [openChangePasswordModal, setOpenChangePasswordModal] =
     useState<boolean>(false);
   const user = useSelector(userSelector);
-  console.log(user);
+  // console.log(user);
   const signOut = () => {
     try {
       dispatch(removeToken());

@@ -9,6 +9,9 @@ export const GetAllVisitor = (query: string) => {
 export const AddNewVisitorData = (data: object) => {
   return axiosPost(`${prefix}/visitor_request_meeting`, data);
 };
+export const GetVisitorDetailsByToken = (token: string) => {
+  return axiosGet(`${prefix}/get_visitor_list_bytoken?tokenNumber=` + token);
+};
 
 export const EditVisitorData = (data: object, id: string) => {
   return axiosPut(`${prefix}/${id}`, data);

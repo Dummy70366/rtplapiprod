@@ -138,6 +138,16 @@ export const MenuList = [
         id: "role",
         link: "/admin/role",
       },
+      {
+        name: "Department",
+        id: "department",
+        link: "/admin/department",
+      },
+      {
+        name: "Designation",
+        id: "designation",
+        link: "/admin/designation",
+      },
     ],
   },
   {
@@ -160,9 +170,14 @@ export const MenuList = [
     subMenu: true,
     subMenuList: [
       {
-        name: "Add Visior",
-        id: "user",
+        name: "Add Visitor",
+        id: "add_visitor",
         link: "/admin/visitor/register",
+      },
+      {
+        name: "Visior List",
+        id: "visitor_list",
+        link: "/admin/visitor",
       },
     ],
   },
