@@ -6,7 +6,15 @@ import ForgotOTPVerification from "@/pages/auth/ForgotOTPVerification";
 import ResetPassword from "@/pages/auth/ResetPassword";
 import Register from "@/pages/auth/Register";
 import CompanyList from "@/pages/admin/Company/CompanyList";
-import OfficesList from "@/pages/admin/offices/OfficesList";
+import OfficesList from "@/pages/admin/Offices/OfficesList";
+import EmployeeList from "@/pages/admin/Employee/EmployeeList";
+import RoleList from "@/pages/admin/Role/RoleList";
+import VisitorRegister from "@/pages/auth/VisitorRegister";
+import StaffVisitorRegister from "@/pages/admin/Visitor/StaffVisitorRegister";
+import StaffVisitorList from "@/pages/admin/Visitor/StaffVisitorList";
+import DepartmentList from "@/pages/admin/Department/DepartmentList";
+import StaffVisitorDetails from "@/pages/admin/Visitor/StaffVisitorDetails";
+import DesignationList from "@/pages/admin/Designation/DesignationList";
 
 export const AuthRoutes = [
   {
@@ -34,6 +42,11 @@ export const AuthRoutes = [
     name: "Reset Password",
     element: ResetPassword,
   },
+  {
+    path: "/visitor/register",
+    name: "Visitor Registration",
+    element: VisitorRegister,
+  },
 ];
 
 export const RoutesPath = [
@@ -42,6 +55,51 @@ export const RoutesPath = [
     name: "Home",
     element: Home,
   },
+  {
+    path: "admin/company",
+    name: "Company Listing",
+    element: CompanyList,
+  },
+  {
+    path: "admin/company/office/:id",
+    name: "Office Listing",
+    element: OfficesList,
+  },
+  {
+    path: "admin/employee",
+    name: "Employee Listing",
+    element: EmployeeList,
+  },
+  {
+    path: "admin/role",
+    name: "Role Listing",
+    element: RoleList,
+  },
+  {
+    path: "admin/department",
+    name: "Department Listing",
+    element: DepartmentList,
+  },
+  {
+    path: "admin/designation",
+    name: "Designation Listing",
+    element: DesignationList,
+  },
+  {
+    path: "admin/visitor/register",
+    name: "Visitor Registration",
+    element: StaffVisitorRegister,
+  },
+  {
+    path: "admin/visitor",
+    name: "Visitor Registration",
+    element: StaffVisitorList,
+  },
+  {
+    path: "admin/visitor/details/:token",
+    name: "Visitor Details",
+    element: StaffVisitorDetails,
+  },
 ];
 
 export const AdminPath = [
@@ -49,17 +107,7 @@ export const AdminPath = [
     path: "/admin/dashboard",
     name: "Admin Dashboard",
     element: Home,
-  },
-  {
-    path: "/admin/company",
-    name: "Company Listing",
-    element: CompanyList,
-  },
-  {
-    path: "/admin/Office-List",
-    name: "office Listing",
-    element: OfficesList,
-  },
+  }
 ];
 
 export const routeMatch = {

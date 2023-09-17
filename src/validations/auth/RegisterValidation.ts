@@ -3,6 +3,7 @@ import {
   ConfirmPasswordValidation,
   CreatePasswordValidation,
 } from "./PasswordValidation";
+import { DOCUMENT_SUPPORTED_FORMATS } from "../../utils/commonConstants";
 
 export const RegisterValidationSchema = () =>
   Yup.object().shape({
@@ -21,6 +22,9 @@ export const RegisterValidationSchema = () =>
       .max(255, `Maximum 255 Characters allowed`)
       .required(`Email is required`)
       .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i, `Email is invalid`),
+    birthdate: Yup.string().required(`Birthdate is required`),
+    joiningDate: Yup.string().required(`Joining Date is required`),
+
     password: CreatePasswordValidation(),
     confirmPassword: ConfirmPasswordValidation(),
     mobileNo: Yup.string()
@@ -36,17 +40,45 @@ export const RegisterValidationSchema = () =>
       .matches(/^\S*$/, `Whitespace is not allowed in Employee code`)
       .max(255, `Maximum 255 Characters allowed`)
       .required(`Employee code is required`),
-    department: Yup.string()
+    departmentID: Yup.string()
       .trim()
       .matches(/^\S*$/, `Whitespace is not allowed in Department`)
-      .max(255, `Maximum 255 Characters allowed`)
       .required(`Department code is required`),
-    designation: Yup.string()
+    designationID: Yup.string()
       .trim()
       .matches(/^\S*$/, `Whitespace is not allowed in Designation`)
-      .max(255, `Maximum 255 Characters allowed`)
       .required(`Designation code is required`),
-    companyName: Yup.string().required(`Company Name is required`),
-    officeAddress: Yup.string().required(`Office address is required`),
+    companyID: Yup.string().required(`Company Name is required`),
+    officeID: Yup.string().required(`Office address is required`),
     roleId: Yup.string().required(`Role is required`),
+    // empIDCard: Yup.mixed()
+    //   .required("Id Card is required")
+    //   .test('fileType', "Only document files are allowed!", (value: any) => {
+    //     if (value?.type) {
+    //       return DOCUMENT_SUPPORTED_FORMATS.includes(value.type)
+    //     } else {
+    //       return true;
+    //     }
+    //   }
+    //   ),
+    // empAadharCard: Yup.mixed()
+    //   .required("Adhar Card is required")
+    //   .test('fileType', "Only document files are allowed!", (value: any) => {
+    //     if (value?.type) {
+    //       return DOCUMENT_SUPPORTED_FORMATS.includes(value.type)
+    //     } else {
+    //       return true;
+    //     }
+    //   }
+    //   ),
+    // empProfileIMg: Yup.mixed()
+    //   .required("Profile Image is required")
+    //   .test('fileType', "Only document files are allowed!", (value: any) => {
+    //     if (value?.type) {
+    //       return DOCUMENT_SUPPORTED_FORMATS.includes(value.type)
+    //     } else {
+    //       return true;
+    //     }
+    //   }
+    //   ),
   });

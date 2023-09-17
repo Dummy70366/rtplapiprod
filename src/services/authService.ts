@@ -30,5 +30,5 @@ export const GetCurrentUser = () => {
 };
 
 export const ChangePasswordData = (data: object) => {
-  return axiosPost(`${prefix}/change-password`, data);
+  return axiosPost(`${prefix}/changePassword`, data);
 };
